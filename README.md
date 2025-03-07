@@ -10,3 +10,5 @@ TODO:
 - Adding Orders GUI (requires interface)
 - Liquidity Provider Implementation
 - Interface (Chart + orderbook)
+- DB Contains 2 tables --> Users, Orders
+- csv for questions
