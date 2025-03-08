@@ -16,7 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from .views.views import index, login, buy_order, sell_order, get_user_stats, check_for_bankruptcy,delete_user, signup, login_py, signup_py
+from .views.views import index, login, buy_order, sell_order, get_user_stats, check_for_bankruptcy,delete_user, signup, login_py, signup_py, fetch_orderbook
 
 # TODO: Add all necessary url patterns
 
@@ -30,6 +30,7 @@ urlpatterns = [
     path("api/update_userstats", get_user_stats, name='update_userstats'),
     path("api/login_py", login_py, name='login_py'),
     path("api/signup_py", signup_py, name='signup_py'),
+    path("api/fetch_orderbook", fetch_orderbook, name = "fetch_orderbook"),
     # These two haven't been implemented into the app.js yet
     path("api/check_for_bankruptcy", check_for_bankruptcy, name='check_for_bankruptcy'),
     path("api/delete_user", delete_user, name='delete_user')

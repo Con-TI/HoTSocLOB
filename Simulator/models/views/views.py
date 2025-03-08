@@ -28,8 +28,8 @@ def index(request):
 # Functions.
 def buy_order(request):
     if request.method == 'GET':
-        price = request.GET.get('price')
-        quantity = request.GET.get('quantity')
+        price = int(request.GET.get('price'))
+        quantity = int(request.GET.get('quantity'))
         user = request.GET.get('user')
         try:
             u = Users.objects.get(name=user)
@@ -45,20 +45,20 @@ def buy_order(request):
 
 def sell_order(request):
     if request.method == 'GET':
-        price = request.GET.get('price')
-        quantity = request.GET.get('quantity')
+        price = int(request.GET.get('price'))
+        quantity = int(request.GET.get('quantity'))
         user = request.GET.get('user')
         try:
             u = Users.objects.get(name=user)
-            OrderBook.add_sell_order(user=u,price=price,quantity=quantity)
-            OrderBook.match_orders()
-            return  JsonResponse({
-                'message': 'success'
-            })
         except:
             return JsonResponse({
                 'message': 'error'
             })
+        OrderBook.add_sell_order(user=u,price=price,quantity=quantity)
+        OrderBook.match_orders()
+        return  JsonResponse({
+            'message': 'success'
+        })
 
 def get_user_stats(request):
     try:
@@ -77,9 +77,9 @@ def get_user_stats(request):
         'pnl':pnl,
         'unreal_pnl':unreal_pnl,
         'pending_orders':pending_orders}
+        return JsonResponse(return_dict)
     except:
-        return JsonResponse({'message':'error','equity':equity})
-    return JsonResponse(return_dict)
+        return JsonResponse({'message':'error','equity':equity})    
 
 def check_for_bankruptcy(request):
     try:
@@ -137,3 +137,10 @@ def signup_py(request):
             return JsonResponse(
                 {'message':'error'}
             )
+            
+def fetch_orderbook(request):
+    if request.method == "GET":
+        p = PriceData()
+        orderbook = p.summarize_orderbook()
+        return JsonResponse(orderbook)
+    

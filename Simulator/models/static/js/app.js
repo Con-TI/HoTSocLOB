@@ -11,10 +11,12 @@ function startAutoRefresh() {
     
     // Immediately fetch orders
     updateUserStats();
+    get_current_orderbook();
     
     // Then set up the interval
     refreshInterval = setInterval(() => {
         updateUserStats();
+        get_current_orderbook();
     }, 5000); // 5000 milliseconds = 5 seconds
     
     console.log('Auto-refresh started: updating orders every 5 seconds');
@@ -26,6 +28,67 @@ function stopAutoRefresh() {
         refreshInterval = null;
         console.log('Orders auto-refresh stopped');
     }
+}
+
+async function get_current_orderbook(){
+    data = await fetchDataFromDjango('/api/fetch_orderbook')
+    .then(data => {
+        return data
+    }).catch(error => {
+        console.error('Error fetching data from Django:', error);
+        throw error;
+    });
+
+    console.log(data);
+
+    // Get the table bodies
+    const buyTableBody = document.querySelector("#buy-orders table tbody");
+    const sellTableBody = document.querySelector("#sell-orders table tbody");
+    
+    // Update buy orders (bids)
+    if (buyTableBody) {
+        buyTableBody.innerHTML = '';
+        
+        if (!data.bids || data.bids.length === 0) {
+            const noDataRow = document.createElement('tr');
+            noDataRow.innerHTML = '<td colspan="2" class="text-center">No orders</td>';
+            buyTableBody.appendChild(noDataRow);
+        } else {
+            // Add each order to the table - make sure to match the HTML order
+            // Your HTML has "Bid Quantity" first, then "Bid"
+            data.bids.forEach(order => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${order.quantity || ''}</td>
+                    <td>${order.price || ''}</td>
+                `;
+                buyTableBody.appendChild(row);
+            });
+        }
+    }
+    
+    // Update sell orders (asks)
+    if (sellTableBody) {
+        sellTableBody.innerHTML = '';
+        
+        if (!data.asks || data.asks.length === 0) {
+            const noDataRow = document.createElement('tr');
+            noDataRow.innerHTML = '<td colspan="2" class="text-center">No orders</td>';
+            sellTableBody.appendChild(noDataRow);
+        } else {
+            // Add each order to the table - make sure to match the HTML order
+            // Your HTML has "Ask" first, then "Ask Quantity"
+            data.asks.forEach(order => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${order.price || ''}</td>
+                    <td>${order.quantity || ''}</td>
+                `;
+                sellTableBody.appendChild(row);
+            });
+        }
+    }
+
 }
 
 async function updateUserStats() {
@@ -55,7 +118,7 @@ async function updateUserStats() {
 // Function to display the user stats in the UI
 function displayUserStats(data) {
     // Update equity
-    const equityElement = document.getElementById('equit-display');
+    const equityElement = document.getElementById('equity-display');
     if (equityElement) {
         equityElement.textContent = `$${data.equity.toFixed(2)}`;
     }
@@ -85,6 +148,13 @@ function displayUserStats(data) {
         if (tableBody) {
             // Clear existing rows
             tableBody.innerHTML = '';
+
+            const columns = document.createElement('tr');
+            columns.innerHTML = `
+                <th>Price</th>
+                <th>Quantity</th>
+            `
+            tableBody.appendChild(columns)
             
             // Check if we have orders
             if (data.pending_orders.length === 0) {
@@ -93,7 +163,7 @@ function displayUserStats(data) {
                 tableBody.appendChild(noDataRow);
                 return;
             }
-            
+
             // Add each order to the table
             data.pending_orders.forEach(order => {
                 const row = document.createElement('tr');
@@ -106,6 +176,7 @@ function displayUserStats(data) {
         }
     }
 }
+
 function fetchDataFromDjango(endpoint, params = {}) {
     // Convert params object to URL parameters
     const queryString = new URLSearchParams(params).toString();
@@ -140,7 +211,7 @@ function fetchDataFromDjango(endpoint, params = {}) {
 document.getElementById('buy-button').addEventListener('click', add_buy_order);
 async function add_buy_order() {
     // TODO: Get values for quantity, price, user
-    const user = document.getElementById('user-display').value;
+    const user = document.getElementById('user-display').textContent;
     const price = document.getElementById('price').value;
     const quantity = document.getElementById('quantity').value;
 
@@ -164,7 +235,7 @@ async function add_buy_order() {
 // Handle sell button click
 document.getElementById('sell-button').addEventListener('click', add_sell_order);
 async function add_sell_order() {
-    const user = document.getElementById('user-display').value;
+    const user = document.getElementById('user-display').textContent;
     const price = document.getElementById('price').value;
     const quantity = document.getElementById('quantity').value;
 
