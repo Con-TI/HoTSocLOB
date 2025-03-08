@@ -1,5 +1,12 @@
+if __name__=='__main__':
+    import os
+    import django
+    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'core.settings')
+    # Added this to fix the environment variable being set up only after service.models is called
+    django.setup()
+        
 from django.db.models import Q
-from models.models import Orders
+from models.models import Orders, PriceHistory
 
 class PriceData():
     def summarize_orderbook():
@@ -29,4 +36,15 @@ class PriceData():
         best_ask = min([price for price in asks])
         return (best_bid+best_ask)/2
 
+    def update_price_history(self):
+        current_midprice = self.fetch_midprice()
+        PriceHistory.objects.create(
+            price = current_midprice
+        )
+        if PriceHistory.objects.count() > 100:
+            oldest_entry = PriceHistory.objects.earliest('created_at')
+            oldest_entry.delete()
+
 # TODO: Test out this class
+if __name__ == "__main__":
+    print(len(PriceHistory.objects.filter()))
