@@ -4,6 +4,7 @@ from ..pricedata import PriceData
 from ..userstats import UserStats
 from django.http import JsonResponse
 from models.models import Users
+from ..users import Add_User, Check_Login
 
 # GUI Views.
 # Login will serve as both a login page and a registration page. 
@@ -12,6 +13,14 @@ from models.models import Users
 # If the user inputs an existing user but incorrect password, generate an alert
 def login(request):
     return render(request, 'login.html')
+
+def signup(request):
+    return render(request, 'signup.html')
+
+def complete_login(request):
+    #this is the one im working on to try and get login working
+   user =  request.GET.get('username')
+   password = request.GET.get('password')
 
 def index(request):
     return render(request,'index.html')
@@ -99,4 +108,30 @@ def delete_user(request):
             'message': 'error'
         })
 
+def login_py(request):
+    if request.method == 'GET':
+        name = request.GET.get('name')
+        password = request.GET.get('password')
+        boo = Check_Login(name, password)
+        if boo:
+            return JsonResponse(
+                {'message':'success'}
+            )
+        else:
+            return JsonResponse(
+                {'message':'error'}
+            )
         
+def signup_py(request):
+    if request.method == 'GET':
+        name = request.GET.get('name')
+        password = request.GET.get('password')
+        boo = Add_User(name, password)
+        if boo:
+            return JsonResponse(
+                {'message':'success'}
+            )
+        else:
+            return JsonResponse(
+                {'message':'error'}
+            )
