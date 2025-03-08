@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Fetch orderbook summary
 
-    // Initialize/Update the price chart
+    // Initialize/Update the price chart + add to price history
 
     // Handle buy button click
     document.getElementById('buy-button').addEventListener('click', function() {
@@ -17,8 +17,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         // TODO: Send request to views. Handle errors
-
-        fetch('/buy_order')
 
     });
 
@@ -58,52 +56,6 @@ document.addEventListener('DOMContentLoaded', function() {
             .catch(error => {
                 console.error('Error:', error);
             });
-    }
-
-    // Function to fetch account info
-    function fetchAccountInfo() {
-        fetch('/api/account-info/')
-            .then(response => response.json())
-            .then(data => {
-                document.getElementById('user-display').textContent = data.user;
-                document.getElementById('equity-display').textContent = data.equity.toFixed(2);
-                document.getElementById('unrealized-pnl-display').textContent = data.unrealized_pnl.toFixed(2);
-                document.getElementById('realized-pnl-display').textContent = data.realized_pnl.toFixed(2);
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
-    }
-
-    // Function to fetch price history
-    function fetchPriceHistory() {
-        fetch('/api/price-history/')
-            .then(response => response.json())
-            .then(data => {
-                // Update chart data
-                priceChart.data.labels = data.prices.map(price => price.timestamp);
-                priceChart.data.datasets[0].data = data.prices.map(price => price.midprice);
-                priceChart.update();
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
-    }
-
-    // Helper function to get CSRF token
-    function getCookie(name) {
-        let cookieValue = null;
-        if (document.cookie && document.cookie !== '') {
-            const cookies = document.cookie.split(';');
-            for (let i = 0; i < cookies.length; i++) {
-                const cookie = cookies[i].trim();
-                if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                    break;
-                }
-            }
-        }
-        return cookieValue;
     }
 
     // Periodic refresh (3 seconds)
