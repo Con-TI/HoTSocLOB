@@ -8,11 +8,12 @@ class UserStats():
     @classmethod
     def fetch_pending_orders(user):
         orders = Orders.objects.filter(name=user.name).order_by('created_time')
-        return [(order.price,order.quantity) for order in orders]
+        return orders
     
     @classmethod
     def calc_unreal_pnl(self, user, midprice):
         orders = self.fetch_pending_orders(user)
+        orders = [(order.price,order.quantity) for order in orders]
         return sum([(midprice-price,quantity) for price,quantity in orders])
     
 # TODO: Test out this class

@@ -16,7 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from .views.views import index, login, buy_order, sell_order
+from .views.views import index, login, buy_order, sell_order, get_user_stats, check_for_bankruptcy,delete_user
 
 # TODO: Add all necessary url patterns
 
@@ -25,6 +25,9 @@ urlpatterns = [
     path("",index, name="index"),
     path("login_register/", login, name="login"),
     path("api/buy_order/", buy_order, name="buy_order"),
-    path("api/sell_order/", sell_order, name="sell_order")
-    
+    path("api/sell_order/", sell_order, name="sell_order"),
+    path("api/update_userstats", get_user_stats, name='update_userstats'),
+    # These two haven't been implemented into the app.js yet
+    path("api/check_for_bankruptcy", check_for_bankruptcy, name='check_for_bankruptcy'),
+    path("api/delete_user", delete_user, name='delete_user')
 ]

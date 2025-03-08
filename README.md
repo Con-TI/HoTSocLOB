@@ -5,14 +5,15 @@ TODO:
 - Order Book Implementation
     - [x] How to store data over the next 5 days? (Solved: Django + Postgresql)
     - [x] Basic price time priority structure/matching
+    - [] Once their unrealized loss > equity, close all positions, set equity to 0 (i.e. can't trade)
 - QnA
-    - [] Question and Answer csv (120 questions) (Timer + Display functionality)
-    - [] UI
+    - [x] Question and Answer csv (31 questions) 
+    - [] UI (Timer + Display functionality)
 - Interface (Chart + orderbook)
     - Chart implementation (Requires orderbook to be finished first)
         - [x] Backend functions
-        - [] GUI
-    - [] Adding Orders GUI (requires interface)
+        - [x] GUI
+    - [x] Adding Orders GUI (requires interface)
 - Username/Account implementation
     - [x] Backend functions
     - [] Initial page GUI
@@ -21,6 +22,6 @@ TODO:
     - [] Make LP run in background with every other user
 - Userstats
     - [x] Backend
-    - [] Unrealized PnL display (would require keeping track of orders)
-    - [] Realized PnL display (current_equity - 1000)
-    - [] Scrollable pending orders display
+    - [x] Unrealized PnL display (would require keeping track of orders)
+    - [x] Realized PnL display (current_equity - 1000)
+    - [x] Scrollable pending orders display
