@@ -23,10 +23,48 @@ body {
     overflow: hidden;
 }
 
-/* Empty text box in top left */
-#empty-text-box {
+
+.text-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+}
+
+/* Make the grid-item itself span two columns */
+#QandA {
     grid-column: 1 / 3;
     grid-row: 1 / 2;
+    width: 100%;
+    height: 100%;
+}
+
+/* Container styling */
+.text-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+}
+
+/* Common properties for both textareas */
+#questions, #answers {
+    width: 100%;
+    box-sizing: border-box;
+    resize: none !important;
+    overflow-y: auto;
+}
+
+/* Specific height for questions (top box) */
+#questions {
+    height: 80%;
+    flex: 0.8;
+}
+
+/* Specific height for answers (bottom box) */
+#answers {
+    height: 20%;
+    flex: 0.2;
 }
 
 #notes {
