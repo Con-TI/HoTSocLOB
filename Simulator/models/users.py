@@ -5,7 +5,16 @@ if __name__=='__main__':
     # Added this to fix the environment variable being set up only after service.models is called
     django.setup()
 
-from models.models import Users
+from models.models import Users, PriceHistory
+from numpy import random
+import time 
+
+#adding random price data
+for i in range(100):
+    PriceHistory.objects.create(
+    price = random.randint(50, 151)
+    )
+    time.sleep(1)
 
 '''user = Users.objects.filter()
 for u in user:
