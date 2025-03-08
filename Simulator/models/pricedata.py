@@ -42,8 +42,14 @@ class PriceData():
             price = current_midprice
         )
         if PriceHistory.objects.count() > 100:
-            oldest_entry = PriceHistory.objects.earliest('created_at')
+            oldest_entry = PriceHistory.objects.earliest('created_time')
             oldest_entry.delete()
+
+    def prices_for_plot(self):
+        self.update_price_history()
+        prices = PriceHistory.objects.filter().order_by('created_time')
+        prices = [p.price for p in prices]
+        return prices
 
 # TODO: Test out this class
 if __name__ == "__main__":
