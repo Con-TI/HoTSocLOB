@@ -14,7 +14,7 @@ TODO:
         - [] GUI
     - [] Adding Orders GUI (requires interface)
 - Username/Account implementation
-    - [] Backend functions
+    - [x] Backend functions
     - [] Initial page GUI
 - Liquidity Provider Implementation
     - [] Maths functions

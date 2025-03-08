@@ -16,10 +16,15 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from .views.views import index, login
+from .views.views import index, login, buy_order, sell_order
 
 # TODO: Add all necessary url patterns
 
 urlpatterns = [
-    path('admin/', admin.site.urls), path("",index, name="index"), path("/login_register", login, name="login")
+    path('admin/', admin.site.urls), 
+    path("",index, name="index"),
+    path("login_register/", login, name="login"),
+    path("api/buy_order/", buy_order, name="buy_order"),
+    path("api/sell_order/", sell_order, name="sell_order")
+    
 ]
