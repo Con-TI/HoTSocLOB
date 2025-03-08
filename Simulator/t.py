@@ -20,6 +20,11 @@ if __name__ == '__main__':
     
     # Orders.objects.create(user=user1, price=10, quantity=10)
     # Orders.objects.create(user=user2, price=20, quantity=-10)
-    p = PriceData()
-    midprice = p.fetch_midprice()
-    PriceHistory.objects.create(price=midprice)
+    # p = PriceData()
+    # midprice = p.fetch_midprice()
+    # PriceHistory.objects.create(price=80)
+    u = PriceData()
+    print(u.summarize_orderbook())
+    # for p in PriceHistory.objects.filter():
+    #     p.delete()
+    

@@ -6,9 +6,11 @@ TODO:
     - [x] How to store data over the next 5 days? (Solved: Django + Postgresql)
     - [x] Basic price time priority structure/matching
     - [x] Once their unrealized loss > equity, close all positions, set equity to 0 (i.e. can't trade)
+    - [x] Display LOB
 - QnA
     - [x] Question and Answer csv (31 questions) 
-    - [] UI (Timer + Display functionality)
+    - [x] UI Display
+    - [] UI Timer?
 - Interface (Chart + orderbook)
     - Chart implementation (Requires orderbook to be finished first)
         - [x] Backend functions

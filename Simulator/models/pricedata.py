@@ -12,28 +12,30 @@ class PriceData():
     def summarize_orderbook(self):
         # Note call the function to match all prevailing orders first before calling this
         unique_prices = Orders.objects.values('price').distinct()
-        bids = {}
-        asks = {}
+        bids = []
+        asks = []
         for price in unique_prices:
             qb = 0
             buy_orders = Orders.objects.filter(Q(quantity__gt=0), price = price['price'])
-            for order in buy_orders:
-                qb += order.quantity
-            bids[price['price']] = qb
+            if buy_orders:
+                for order in buy_orders:
+                    qb += order.quantity
+                bids.append({'price':price['price'],'quantity':qb}) 
             
             qs = 0
             sell_orders = Orders.objects.filter(Q(quantity__lt=0), price = price['price'])
-            for order in sell_orders:
-                qs += abs(order.quantity)
-            asks[price['price']] = qs
+            if sell_orders:
+                for order in sell_orders:
+                    qs += abs(order.quantity)
+                asks.append({'price':price['price'],'quantity':qs}) 
         return {'bids':bids,'asks':asks}
     
     def fetch_midprice(self):
         lob = self.summarize_orderbook()
         bids = lob['bids']
-        best_bid = max([price for price in bids])
+        best_bid = max([level['price'] for level in bids])
         asks = lob['asks']
-        best_ask = min([price for price in asks])
+        best_ask = min([level['price'] for level in asks])
         return (best_bid+best_ask)/2
 
     def update_price_history(self):
