@@ -14,3 +14,5 @@ class UserStats():
     def calc_unreal_pnl(self, user, midprice):
         orders = self.fetch_pending_orders(user)
         return sum([(midprice-price,quantity) for price,quantity in orders])
+    
+# TODO: Test out this class

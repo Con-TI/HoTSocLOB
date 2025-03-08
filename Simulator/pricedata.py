@@ -28,3 +28,5 @@ class PriceData():
         asks = lob['asks']
         best_ask = min([price for price in asks])
         return (best_bid+best_ask)/2
+
+# TODO: Test out this class
