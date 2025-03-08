@@ -5,6 +5,7 @@ from ..userstats import UserStats
 from django.http import JsonResponse
 from models.models import Users
 from ..users import Add_User, Check_Login
+import pandas as pd
 
 # GUI Views.
 # Login will serve as both a login page and a registration page. 
@@ -143,4 +144,19 @@ def fetch_orderbook(request):
         p = PriceData()
         orderbook = p.summarize_orderbook()
         return JsonResponse(orderbook)
+    
+def chart_py(request):
+    if request.method == 'GET':
+        u = PriceData()
+        prices = u.prices_for_plot()
+        return_dict = {"prices":prices,"labels":[i for i in range(100)]}
+        return JsonResponse(return_dict)
+
+qanda = pd.read_csv('models/views/QandA.csv')
+
+def questions_py(request):
+    if request.method == 'GET':
+        qs = qanda['Question'].to_list()
+        qs_dict = {'question':qs}
+        return JsonResponse(qs_dict)
     

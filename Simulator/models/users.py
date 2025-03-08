@@ -51,3 +51,11 @@ def Check_Login(name, password):
         
     except:
         return False
+    
+#testing the returning of price data
+'''if __name__=="__main__":
+    from models.pricedata import PriceData
+    data = PriceData()
+    prices = data.prices_for_plot()
+    print(len(prices))
+    print(prices[:3])'''
