@@ -1,4 +1,10 @@
 let refreshInterval;
+function username_update(){
+    const name = sessionStorage.getItem('username');
+    disp = document.getElementById('user-display')
+    disp.textContent = name
+}
+
 function startAutoRefresh() {
     // Clear any existing interval first
     stopAutoRefresh();
@@ -182,5 +188,6 @@ async function add_sell_order() {
 // Periodic refresh (3 seconds)
 
 document.addEventListener('DOMContentLoaded', function() {
+    username_update();
     startAutoRefresh();
 });
