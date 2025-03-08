@@ -62,22 +62,24 @@ def sell_order(request):
 
 def get_user_stats(request):
     try:
-        username = request.GET.get('user')
-        user = Users.objects.get(user=username)
-        equity = user.equity
-        pnl = UserStats.calc_pnl(user)
-        unreal_pnl = UserStats.calc_unreal_pnl(user,PriceData.fetch_midprice())
-        pending_orders = UserStats.fetch_pending_orders(user)
-        return JsonResponse({
-            'equity':equity,
-            'pnl':pnl,
-            'unreal_pnl':unreal_pnl,
-            'pending_orders':pending_orders
-        })
+        username = str(request.GET.get('user'))
+        user = Users.objects.get(name=username)
+        equity = int(user.equity)
+        u = UserStats()
+        pnl = u.calc_pnl(equity)
+        p = PriceData()
+        midprice = p.fetch_midprice()
+        unreal_pnl = u.calc_unreal_pnl(user, midprice)
+        pending_orders = u.fetch_pending_orders(user)
+        pending_orders = [{'price':order.price, 'quantity':order.quantity} for order in pending_orders]
+        return_dict = {
+        'equity':equity,
+        'pnl':pnl,
+        'unreal_pnl':unreal_pnl,
+        'pending_orders':pending_orders}
     except:
-        return JsonResponse({
-            'message':'error'
-        })
+        return JsonResponse({'message':'error','equity':equity})
+    return JsonResponse(return_dict)
 
 def check_for_bankruptcy(request):
     try:

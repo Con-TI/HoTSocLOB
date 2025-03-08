@@ -30,14 +30,15 @@ function stopAutoRefresh() {
 
 async function updateUserStats() {
     try {
-        const username = document.getElementById('user-display').value;
-        
+        username_elem = document.getElementById('user-display')
+        const username = username_elem.textContent;
         const statsData = await fetchDataFromDjango('/api/update_userstats', {
             'user': username
         });
 
         // Check if we got a valid response
         if (statsData.message === 'error') {
+            console.log(statsData)
             console.error('Error fetching user stats');
             return;
         }
