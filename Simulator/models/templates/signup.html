@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TradeSim - Login</title>
+    <title>TradeSim - Sign Up</title>
     {% load static %}
     <style>
         body {
@@ -45,7 +45,7 @@
             line-height: 1.4;
         }
         
-        .login-form {
+        .signup-form {
             background-color: white;
             padding: 40px;
             flex: 1;
@@ -84,30 +84,30 @@
             border-color: #0066b2;
         }
         
-        .remember-forgot {
+        .terms {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
+            align-items: flex-start;
             margin-bottom: 20px;
             font-size: 14px;
         }
         
-        .remember {
-            display: flex;
-            align-items: center;
-        }
-        
-        .remember input {
+        .terms input {
             width: auto;
             margin-right: 8px;
+            margin-top: 3px;
         }
         
-        .forgot-password a {
+        .terms label {
+            margin-bottom: 0;
+            font-weight: normal;
+        }
+        
+        .terms a {
             color: #0066b2;
             text-decoration: none;
         }
         
-        .login-button {
+        .signup-button {
             background-color: #0066b2;
             color: white;
             border: none;
@@ -119,17 +119,17 @@
             transition: background-color 0.3s;
         }
         
-        .login-button:hover {
+        .signup-button:hover {
             background-color: #0055a5;
         }
         
-        .signup {
+        .login {
             text-align: center;
             margin-top: 20px;
             font-size: 14px;
         }
         
-        .signup a {
+        .login a {
             color: #0066b2;
             text-decoration: none;
             font-weight: 600;
@@ -152,30 +152,31 @@
         <div class="left-panel">
             <div class="campaign-message">Vote for Oles and Trey as AlgoSoc Head of Trading</div>
         </div>
-        <div class="login-form">
-            <h1>Welcome Back</h1>
+        <div class="signup-form">
+            <h1>Create Your Account</h1>
             <div class="input-group">
                 <label for="username">Username</label>
-                <input type="text" id="username" name="username" required placeholder="Enter your username">
+                <input type="text" id="username" name="username" required placeholder="Choose a username">
             </div>
             <div class="input-group">
                 <label for="password">Password</label>
-                <input type="password" id="password" name="password" required placeholder="Enter your password">
-</div>
-<div class="remember-forgot">
-    <div class="remember">
-        <input type="checkbox" id="remember" name="remember">
-        <label for="remember">Remember me</label>
+                <input type="password" id="password" name="password" required placeholder="Create a password">
+            </div>
+            <div class="input-group">
+                <label for="confirm-password">Confirm Password</label>
+                <input type="password" id="confirm-password" name="confirm-password" required placeholder="Confirm your password">
+            </div>
+            <div class="terms">
+                <input type="checkbox" id="terms" name="terms" required>
+                <label for="terms">I agree to the <a href="https://www.youtube.com/watch?v=xvFZjo5PgG0" target="_blank">Terms of Service</a></label>
+            </div>
+            <button type="submit" class="signup-button" id="signup-button">Sign Up</button>
+            <div class="login">
+                Already have an account? <a href="/login">Log in</a>
+            </div>
+            <div id="signup-error" style="display: none; color: red;"></div>
+        </div>
     </div>
-</div>
-<button type="submit" class="login-button" id="login-button">Log In</button>
-<div class="signup">
-    Don't have an account? <a href="/signup">Sign up</a>
-</div>
-<div id="login-error" style="display: none; color: red;"></div>
-</form>
-</div>
-</div>
-<script src="{% static '/js/login.js' %}"></script>
+    <script src="{% static '/js/signup.js' %}"></script>
 </body>
 </html>
