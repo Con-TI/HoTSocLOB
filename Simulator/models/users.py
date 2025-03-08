@@ -10,11 +10,11 @@ from numpy import random
 import time 
 
 #adding random price data
-for i in range(100):
+'''for i in range(100):
     PriceHistory.objects.create(
     price = random.randint(50, 151)
     )
-    time.sleep(1)
+    time.sleep(1)'''
 
 '''user = Users.objects.filter()
 for u in user:
