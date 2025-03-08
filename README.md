@@ -5,7 +5,7 @@ TODO:
 - Order Book Implementation
     - [x] How to store data over the next 5 days? (Solved: Django + Postgresql)
     - [x] Basic price time priority structure/matching
-    - [] Once their unrealized loss > equity, close all positions, set equity to 0 (i.e. can't trade)
+    - [x] Once their unrealized loss > equity, close all positions, set equity to 0 (i.e. can't trade)
 - QnA
     - [x] Question and Answer csv (31 questions) 
     - [] UI (Timer + Display functionality)
@@ -16,7 +16,7 @@ TODO:
     - [x] Adding Orders GUI (requires interface)
 - Username/Account implementation
     - [x] Backend functions
-    - [] Initial page GUI
+    - [x] Initial page GUI
 - Liquidity Provider Implementation
     - [] Maths functions
     - [] Make LP run in background with every other user
@@ -25,3 +25,4 @@ TODO:
     - [x] Unrealized PnL display (would require keeping track of orders)
     - [x] Realized PnL display (current_equity - 1000)
     - [x] Scrollable pending orders display
+- [] Make sure GCP runs a unique instance on every device
