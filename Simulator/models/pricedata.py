@@ -9,7 +9,7 @@ from django.db.models import Q
 from models.models import Orders, PriceHistory
 
 class PriceData():
-    def summarize_orderbook():
+    def summarize_orderbook(self):
         # Note call the function to match all prevailing orders first before calling this
         unique_prices = Orders.objects.values('price').distinct()
         bids = {}
