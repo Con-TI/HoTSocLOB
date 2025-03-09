@@ -48,23 +48,28 @@ body {
 }
 
 /* Common properties for both textareas */
-#questions, #answers {
+#questions, #answers #q-title{
     width: 100%;
     box-sizing: border-box;
     resize: none !important;
     overflow-y: auto;
 }
 
+#q-title{
+    height: 25%;
+    flex: 0.25;
+}
+
 /* Specific height for questions (top box) */
 #questions {
-    height: 80%;
-    flex: 0.8;
+    height: 60%;
+    flex: 0.6;
 }
 
 /* Specific height for answers (bottom box) */
 #answers {
-    height: 20%;
-    flex: 0.2;
+    height: 15%;
+    flex: 0.15;
 }
 
 #notes {
