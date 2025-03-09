@@ -10,7 +10,7 @@ class LP():
         self.memory = None
         
         # Stores the current market spread, midprice, TWAP, VWAP, and volatility (sigma)
-        self.market_conditions = {'spread':None,'midprice':None,'TWAP':None, 'VWAP':None, 'sigma':None}
+        self.market_conditions = {'spread':None,'midprice':None, 'microprice':None, 'sigma':None}
         
     def _fetch_mid(self):
         u = PriceData()
@@ -19,4 +19,8 @@ class LP():
     def _calc_spread(self):
         u = PriceData()
         self.market_conditions['spread'] = u.fetch_spread()
+
+    def _fetch_micro(self):
+        u = PriceData()
+        self.market_conditions['microprice'] = u.fetch_microprice()
         
