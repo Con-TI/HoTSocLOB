@@ -141,8 +141,6 @@ function displayUserStats(data) {
         unrealPnlElement.className = unrealPnlColor;
     }
     
-    // If you want to also handle the pending orders from this endpoint
-    // This could replace or supplement your existing pending orders function
     if (data.pending_orders && Array.isArray(data.pending_orders)) {
         const tableBody = document.getElementById('order-list');
         if (tableBody) {
@@ -161,7 +159,6 @@ function displayUserStats(data) {
                 const noDataRow = document.createElement('tr');
                 noDataRow.innerHTML = '<td colspan="5" class="text-center">No pending orders</td>';
                 tableBody.appendChild(noDataRow);
-                return;
             }
 
             // Add each order to the table
@@ -172,6 +169,39 @@ function displayUserStats(data) {
                     <td>${order.quantity || ''}</td>
                 `;
                 tableBody.appendChild(row);
+            });
+        }
+    }
+    
+    if (data.positions && Array.isArray(data.positions)) {
+        const tableBody2 = document.getElementById('positions-list');
+        if (tableBody2) {
+            // Clear existing rows
+            tableBody2.innerHTML = '';
+
+            const columns2 = document.createElement('tr');
+            columns2.innerHTML = `
+                <th>Price</th>
+                <th>Quantity</th>
+            `
+            tableBody2.appendChild(columns2)
+            
+            // Check if we have positions
+            if (data.positions.length === 0) {
+                const noDataRow = document.createElement('tr');
+                noDataRow.innerHTML = '<td colspan="5" class="text-center">No positions</td>';
+                tableBody2.appendChild(noDataRow);
+                return;
+            }
+
+            // Add each positions to the table
+            data.positions.forEach(pos => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${pos.price || ''}</td>
+                    <td>${pos.quantity || ''}</td>
+                `;
+                tableBody2.appendChild(row);
             });
         }
     }

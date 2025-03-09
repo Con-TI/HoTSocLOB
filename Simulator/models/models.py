@@ -24,3 +24,14 @@ class Orders(models.Model):
 class PriceHistory(models.Model):
     price = models.IntegerField(verbose_name="price")
     created_time = models.DateTimeField(verbose_name = "timestamp", auto_now_add=True)
+
+class Positions(models.Model):
+    id = models.AutoField(primary_key=True)
+    price = models.IntegerField(verbose_name="price")
+    quantity = models.IntegerField(verbose_name='quantity')
+    user = models.ForeignKey(
+        Users,
+        verbose_name="user",
+        on_delete=models.CASCADE
+    )
+    created_time = models.DateTimeField(verbose_name = "timestamp", auto_now_add=True)

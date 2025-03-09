@@ -35,6 +35,9 @@
                 <button id="buy-button">Buy</button>
                 <button id="sell-button">Sell</button>
             </div>
+            <div class="button-container">
+                <button id="clear-pending-button">Clear Pending Orders</button>
+            </div>
         </div>
         
         <div class="grid-item" id="pending-orders">
@@ -77,13 +80,28 @@
                             <span id="realized-pnl-display">0</span>
                         </div>
                     </div>
-                    <div class="button-container">
-                        <button id="clear-pending-button">Clear Pending Orders</button>
-                    </div>
                 </div>
             </div>
         </div>
         
+        <!-- Positions Table -->
+        <div class="grid-item" id="positions">
+            <h4>Positions</h4>
+            <div class="positions-list-container">
+                <table id="positions-list">
+                    <thead>
+                        <tr>
+                            <th>Price</th>
+                            <th>Quantity</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Populate with positions -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
         <!-- Price chart in the right top -->
         <div class="grid-item" id="price-chart">
             <h2>Vote Oles and Trey for AlgoSoc Head of Trading &#128536;</h2>

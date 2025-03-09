@@ -75,11 +75,14 @@ def get_user_stats(request):
         unreal_pnl = u.calc_unreal_pnl(user, midprice)
         pending_orders = u.fetch_pending_orders(user)
         pending_orders = [{'price':order.price, 'quantity':order.quantity} for order in pending_orders]
+        positions = u.fetch_positions(user)
+        positions = [{'price':pos.price,'quantity':pos.quantity} for pos in positions]
         return_dict = {
         'equity':equity,
         'pnl':pnl,
         'unreal_pnl':unreal_pnl,
-        'pending_orders':pending_orders}
+        'pending_orders':pending_orders,
+        'positions':positions}
         return JsonResponse(return_dict)
     except:
         return JsonResponse({'message':'error','equity':equity})    
