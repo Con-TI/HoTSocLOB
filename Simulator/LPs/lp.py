@@ -10,6 +10,7 @@ from models.pricedata import PriceData
 from models.userstats import UserStats
 from models.models import Positions, Orders, Users
 import numpy as np
+import scipy.stats as stats
 
 class LP():
     def __init__(self, username = 'LP'):
@@ -146,7 +147,24 @@ class LP():
     def _clear_pending(self):
         # Clear all pending orders
         Orders.objects.filter(user=self.user).delete()
-    
+
+    def _update_pending(self):
+        self._fetch_inventory_and_pending_orders()
+        self._create_summary_distributions()
+        pending_bids = self.pending_bids_summary()
+        desired_bids = self._bid_generator()
+        desired_bid_prices = [order['price'] for order in desired_bids]
+        diff = 0
+        for order in pending_bids:
+            p = order['price']
+            if p in desired_bid_prices:
+                desired_order = [order for order in desired_bids if order['price'] == p][0]
+                quantity_difference = abs(desired_order['quantity']-order['quantity'])
+                diff += quantity_difference
+            else:
+                diff+=order['quantity']
+        if diff >= 20:
+            self._quotes_reset()
         
     
 if __name__ == '__main__':
