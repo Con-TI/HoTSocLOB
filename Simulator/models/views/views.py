@@ -182,6 +182,8 @@ def answers_py(request):
     now = datetime.now()
     elapsed_time = now - init_time
     elapsed_time = elapsed_time.total_seconds()
+    time_to_ans = interval/2 - (elapsed_time%interval)
+    time_to_ans_str = str(round(time_to_ans, 2)) + ' hours to next answer release'
     #converting to hours when proper
     #elapsed_time = elapsed_time/3600
     index = math.floor(elapsed_time/interval)
@@ -193,7 +195,7 @@ def answers_py(request):
                 ans_dict = {'answer':ans}
                 return JsonResponse(ans_dict)
             return JsonResponse(
-                {'answer':'Answer not yet released - gain your edge'}
+                {'answer': time_to_ans_str}
                 )
         except:
             return JsonResponse(
