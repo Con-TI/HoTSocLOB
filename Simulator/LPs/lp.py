@@ -67,3 +67,11 @@ class LP():
             self.market_conditions['sigma_norm'] = vol/mu
         except:
             self.market_conditions['sigma_norm'] = 0
+
+    def _order_distribution_shift(self):
+        self._find_rel_volatility()
+        rel_vol = self.market_conditions['sigma_norm']
+
+        if abs(rel_vol)>0.1:
+            return 2
+        return 1
