@@ -1,0 +1,9 @@
+runtime: python310
+entrypoint: gunicorn -w 2 -b :$PORT main:app
+
+handlers:
+- url: /static
+  static_dir: static/
+
+beta_settings:
+  cloud_sql_instances: 'even-arc-453016-s3:us-central1:data'
