@@ -208,7 +208,6 @@ function fetchDataFromDjango(endpoint, params = {}) {
 
 
 // Handle buy button click
-document.getElementById('buy-button').addEventListener('click', add_buy_order);
 async function add_buy_order() {
     // TODO: Get values for quantity, price, user
     const user = document.getElementById('user-display').textContent;
@@ -233,7 +232,6 @@ async function add_buy_order() {
 };
 
 // Handle sell button click
-document.getElementById('sell-button').addEventListener('click', add_sell_order);
 async function add_sell_order() {
     const user = document.getElementById('user-display').textContent;
     const price = document.getElementById('price').value;
@@ -257,9 +255,24 @@ async function add_sell_order() {
 
 }
 
+// Handle clear pending orders click
+async function clear_pending_orders() {
+    const user = document.getElementById('user-display').textContent;
+    fetchDataFromDjango('/api/clear_pending_orders',{
+        'user': user,
+    }).then(data => {
+        console.log('Deleted Orders')
+    }).catch(error => {
+        console.error("No pending orders")
+    })
+}
+
 // Periodic refresh (3 seconds)
 
 document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('buy-button').addEventListener('click', add_buy_order);
+    document.getElementById('sell-button').addEventListener('click', add_sell_order);
+    document.getElementById('clear-pending-button').addEventListener('click', clear_pending_orders);
     username_update();
     startAutoRefresh();
 });

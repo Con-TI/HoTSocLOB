@@ -7,13 +7,13 @@
     {% load static %}
     <!-- Loads css file-->
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <script src="{% static 'js/app.js' %}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
     <script src="{% static '/js/chart.js' %}"></script>
     <script src="{% static '/js/questions.js' %}"></script>
 </head>
 <body>
     <div class="grid-container">
-        <!-- TODO: Add questions/answers -->
         <div class="grid-item" id="QandA">
             <div class="text-container">
                 <textarea id="questions" placeholder="Questions" readonly></textarea>
@@ -21,7 +21,6 @@
             </div>
         </div>
         
-        <!-- TODO: Add scripts to communicate with python backend -->
         <div class="grid-item" id="order-input">
             <div class="input-group">
                 <label for="price">Price:</label>
@@ -37,7 +36,6 @@
             </div>
         </div>
         
-        <!-- Pending orders -->
         <div class="grid-item" id="pending-orders">
             <h4>Pending Orders</h4>
             <div class="order-list-container">
@@ -55,25 +53,32 @@
             </div>
         </div>
         
-        <!-- TODO: Integrate with python backend -->
+        <!-- Integrate with python backend -->
         <div class="grid-item" id="account-info">
             <h3>Account Information</h3>
             <div class="info-container">
-                <div class="info-item">
-                    <span class="label">User:</span>
-                    <span id="user-display"></span>
-                </div>
-                <div class="info-item">
-                    <span class="label">Equity:</span>
-                    <span id="equity-display">0</span>
-                </div>
-                <div class="info-item">
-                    <span class="label">Unrealized PnL:</span>
-                    <span id="unrealized-pnl-display">0</span>
-                </div>
-                <div class="info-item">
-                    <span class="label">Realized PnL:</span>
-                    <span id="realized-pnl-display">0</span>
+                <div class="account-header">
+                    <div class="account-info-section">
+                        <div class="info-item">
+                            <span class="label">User:</span>
+                            <span id="user-display"></span>
+                        </div>
+                        <div class="info-item">
+                            <span class="label">Equity:</span>
+                            <span id="equity-display">0</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="label">Unrealized PnL:</span>
+                            <span id="unrealized-pnl-display">0</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="label">Realized PnL:</span>
+                            <span id="realized-pnl-display">0</span>
+                        </div>
+                    </div>
+                    <div class="button-container">
+                        <button id="clear-pending-button">Clear Pending Orders</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -121,8 +126,5 @@
             </div>
         </div>
     </div>
-
-    <!-- All code to integrate with python -->
-    <script src="{% static 'js/app.js' %}"></script>
 </body>
 </html>
