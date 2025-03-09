@@ -5,7 +5,7 @@ if __name__=='__main__':
     # Added this to fix the environment variable being set up only after service.models is called
     django.setup()
         
-from models.models import Orders, Users
+from models.models import Orders, Users, Positions
 from django.db.models import Q
 
 
@@ -35,16 +35,41 @@ class OrderBook():
                         sell_order.save(update_fields=['quantity'])
                         buy_order.save(update_fields=['quantity'])
                         
-                        # Update user equities
+                        # Update user equities and positions
                         user_id = sell_order.user_id
                         user = Users.objects.get(id=user_id)
                         user.equity += trade_quantity * p
                         user.save(update_fields=['equity'])
                         
+                        try:
+                            pos = Positions.objects.get(user=user, price=p)
+                            pos.quantity -= trade_quantity
+                            pos.save(update_fields=['quantity'])
+                            if pos.quantity == 0:
+                                pos.delete()
+                        except:
+                            pos = Positions.objects.create(
+                                user = user,
+                                price = p,
+                                quantity = -trade_quantity
+                            )
+                        
                         user_id = buy_order.user_id
                         user = Users.objects.get(id=user_id)
                         user.equity -= trade_quantity * p
                         user.save(update_fields=['equity'])
+                        try:
+                            pos = Positions.objects.get(user=user, price=p)
+                            pos.quantity += trade_quantity
+                            pos.save(update_fields=['quantity'])
+                            if pos.quantity == 0:
+                                pos.delete()
+                        except:
+                            pos = Positions.objects.create(
+                                user = user,
+                                price = p,
+                                quantity = trade_quantity
+                            )
                         
                         # Delete order if fully filled
                         if sell_order.quantity == 0:

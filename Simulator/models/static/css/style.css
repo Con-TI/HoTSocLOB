@@ -158,7 +158,7 @@ body {
 
 /* Account info in bottom left */
 #account-info {
-    grid-column: 1 / 3;
+    grid-column: 1 / 2;
     grid-row: 3 / 4;
 }
 
@@ -198,10 +198,39 @@ body {
     cursor: pointer;
     font-weight: bold;
     white-space: nowrap;
+    margin: 2px;
 }
 
 #clear-pending-button:hover {
     background-color: #d32f2f;  /* Darker red on hover */
+}
+
+/* Positions in the bottom left*/
+#positions {
+    grid-column: 2 / 3;
+    grid-row: 3 / 4;
+}
+
+.positions-list-container {
+    height: calc(100% - 40px);
+    overflow-y: auto;
+}
+
+#positions-list {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+#positions-list th, #positions-list td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: right;
+}
+
+#positions-list th {
+    background-color: #f2f2f2;
+    position: sticky;
+    top: 0;
 }
 
 /* Price chart in the right top */
