@@ -160,3 +160,12 @@ def questions_py(request):
         qs_dict = {'question':qs}
         return JsonResponse(qs_dict)
     
+def clear_pending_orders(request):
+    if request.method == "GET":
+        try:
+            username = request.GET.get('user')
+            user = Users.objects.get(name=username)
+            OrderBook.clear_pending_orders(user)
+            return JsonResponse({'message':'success'})
+        except:
+            return JsonResponse({'message':'error'})

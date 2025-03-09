@@ -74,6 +74,10 @@ class OrderBook():
             price = price,
             quantity = -quantity,
         )
+    
+    @classmethod
+    def clear_pending_orders(self, user):
+        Orders.objects.filter(user=user).delete()
         
 if __name__ == "__main__":
     # Clear DB
