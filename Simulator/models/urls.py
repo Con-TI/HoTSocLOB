@@ -16,6 +16,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from django.conf import settings
+from django.conf.urls.static import static 
 from .views.views import index, login, buy_order, sell_order, get_user_stats, check_for_bankruptcy,delete_user, signup, login_py, signup_py, fetch_orderbook, chart_py, questions_py, clear_pending_orders, answers_py, my_view
 
 # TODO: Add all necessary url patterns
@@ -40,3 +42,7 @@ urlpatterns = [
     path("api/check_for_bankruptcy", check_for_bankruptcy, name='check_for_bankruptcy'),
     path("api/delete_user", delete_user, name='delete_user')
 ]
+
+
+if settings.DEBUG is False:
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
