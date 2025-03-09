@@ -32,8 +32,8 @@ TODO:
     - Functions:
         - [] Market conditions fetch
             - [] Volatility fetch
-        - [] Inventory/Positions fetch
-        - [] Pending orders fetch
+        - [x] Inventory/Positions fetch
+        - [x] Pending orders fetch
         - [] Bid quote generator (I.e. Poisson parameter generator, (Poisson RV + 1 or 2))
         - [] Ask quote generator (I.e. Poisson parameter generator, (Poisson RV + 1 or 2))
         - [] Clear quotes/edits quotes as conditions change

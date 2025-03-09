@@ -83,7 +83,6 @@ class PriceData():
         microprice = (best_ask*best_bid_vol+best_bid*best_ask_vol)/(best_bid_vol+best_ask_vol)
         return microprice
 
-
     def update_price_history(self):
         current_midprice = self.fetch_midprice()
         PriceHistory.objects.create(
