@@ -216,3 +216,9 @@ def clear_pending_orders(request):
         except:
             return JsonResponse({'message':'error'})
         
+# Starting celery task
+from models.tasks import update_database_task
+
+# Trigger the background task
+def my_view(request):
+    update_database_task.delay()    
