@@ -32,12 +32,11 @@ async function update_question(index) {
 
 async function update_answer(index) {
     const ans = await fetchDataFromDjango('api/answers_py',{});
-    console.log(ans)
     if(index%2 == 1){
         aIndex = ((index-1)/2) % ans.answer.length
         document.getElementById("answers").textContent = ans.answer[aIndex];
     } else{
-        document.getElementById("answers").textContent = 'Answer not yet released - gain you edge';
+        document.getElementById("answers").textContent = 'Answer not yet released - gain your edge';
     }
 
 }
@@ -51,13 +50,13 @@ function startAutoRefreshQ() {
     
     // Immediately fetch q and a
     update_question(refreshCounter);
-    update_answer(refreshCounter)
+    update_answer(refreshCounter);
     
     // Then set up the interval
     refreshIntervalquestion = setInterval(() => {
         refreshCounter++;
         update_question(refreshCounter);
-        update_answer(refreshCounter)
+        update_answer(refreshCounter);
     }, 5000); // 7200000 milliseconds = 2 hours, 2 time steps for q, 1 for a
     
     console.log('Auto-refresh started: updating question and answer every 2 hours');
