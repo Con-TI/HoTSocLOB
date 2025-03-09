@@ -26,8 +26,20 @@ function fetchDataFromDjango(endpoint, params = {}) {
 
 async function update_question(index) {
     const qs = await fetchDataFromDjango('api/questions_py',{});
-    qIndex = index % qs.question.length
+    qIndex = Math.floor(index/2) % qs.question.length
     document.getElementById("questions").textContent = qs.question[qIndex];
+}
+
+async function update_answer(index) {
+    const ans = await fetchDataFromDjango('api/answers_py',{});
+    console.log(ans)
+    if(index%2 == 1){
+        aIndex = ((index-1)/2) % ans.answer.length
+        document.getElementById("answers").textContent = ans.answer[aIndex];
+    } else{
+        document.getElementById("answers").textContent = 'Answer not yet released - gain you edge';
+    }
+
 }
 
 let refreshIntervalquestion;
@@ -37,23 +49,25 @@ function startAutoRefreshQ() {
     // Clear any existing interval first
     stopAutoRefreshQ();
     
-    // Immediately fetch orders
+    // Immediately fetch q and a
     update_question(refreshCounter);
+    update_answer(refreshCounter)
     
     // Then set up the interval
     refreshIntervalquestion = setInterval(() => {
         refreshCounter++;
         update_question(refreshCounter);
-    }, 5000); // 14400000 milliseconds = 4 hours
+        update_answer(refreshCounter)
+    }, 5000); // 7200000 milliseconds = 2 hours, 2 time steps for q, 1 for a
     
-    console.log('Auto-refresh started: updating question every 4 hours');
+    console.log('Auto-refresh started: updating question and answer every 2 hours');
 }
 
 function stopAutoRefreshQ() {
     if (refreshIntervalquestion) {
         clearInterval(refreshIntervalquestion);
         refreshIntervalquestion = null;
-        console.log('Question auto-refresh stopped');
+        console.log('Question and answer auto-refresh stopped');
     }
 }
 
