@@ -1,10 +1,17 @@
-from ..models.orderbook import OrderBook
-from ..models.pricedata import PriceData
-from ..models.userstats import UserStats
-from ..models.models import Positions, Orders, Users
+if __name__ == '__main__':
+    import os
+    import django
+    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'core.settings')
+    # Added this to fix the environment variable being set up only after service.models is called
+    django.setup()
+
+from models.orderbook import OrderBook
+from models.pricedata import PriceData
+from models.userstats import UserStats
+from models.models import Positions, Orders, Users
 
 class LP():
-    def __init__(self, username = 'LP1'):
+    def __init__(self, username = 'LP'):
         self.username = username
         self.user = Users.objects.get(name=self.username)
         self.positions = None
@@ -12,6 +19,9 @@ class LP():
         self.pending_bids_summary = None
         self.pending_asks_summary = None
         self.memory = None
+        self.poi_params = None
+        self.m1 = 0.02
+        self.m2 = 0.05
         
         # Stores the current market spread, midprice, TWAP, VWAP, and volatility (sigma)
         self.market_conditions = {'spread':None,'midprice':None, 'microprice':None, 'sigma-norm':None, 'best_ask':None, 'best_bid':None}
@@ -30,7 +40,7 @@ class LP():
     def _derive_order_ratio(self):
         micro_minus_bid = self.market_conditions['microprice']-self.market_conditions['best_bid']
         numeric_spread = self.market_conditions['spread']
-        bid_order_num = int(micro_minus_bid/numeric_spread*100)
+        bid_order_num = min(max(int(micro_minus_bid/numeric_spread*100),10),90)
         ask_order_num = 100 - bid_order_num
         return {"bids": bid_order_num, "asks": ask_order_num}
     
@@ -67,11 +77,20 @@ class LP():
             self.market_conditions['sigma_norm'] = vol/mu
         except:
             self.market_conditions['sigma_norm'] = 0
-
-    def _order_distribution_shift(self):
+            
+    def _poi_param(self):
+        order_ratio = self._derive_order_ratio()
+        leaky_relu = lambda x : self.m1*(50-x)+1 if x>=50 else self.m2*(10-x)+3
+        self.poi_params = {'bid':leaky_relu(order_ratio['bid']),'ask':leaky_relu(order_ratio['ask'])}
+        
+    def _order_distributino_shift(self):
         self._find_rel_volatility()
         rel_vol = self.market_conditions['sigma_norm']
-
+        
         if abs(rel_vol)>0.1:
             return 2
         return 1
+    
+if __name__ == '__main__':
+    leaky_relu = lambda x : -0.02*(x-50)+1 if x>=50 else 0.05*(10-x)+3
+    print(leaky_relu(30))
