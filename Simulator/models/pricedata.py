@@ -7,6 +7,7 @@ if __name__=='__main__':
         
 from django.db.models import Q
 from models.models import Orders, PriceHistory
+from numpy import std, mean
 
 class PriceData():
     def summarize_orderbook(self):
@@ -97,6 +98,14 @@ class PriceData():
         prices = PriceHistory.objects.filter().order_by('created_time')
         prices = [p.price for p in prices]
         return prices
+    
+    def price_vol(self):
+        price_list = self.prices_for_plot()
+        return price_list.std()
+    
+    def price_mean(self):
+        price_list = self.prices_for_plot()
+        return mean(price_list)
 
 # TODO: Test out this class
 if __name__ == "__main__":
