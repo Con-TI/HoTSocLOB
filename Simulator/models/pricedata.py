@@ -49,13 +49,27 @@ class PriceData():
     
     def fetch_top_ask_vol(self, lob):
         asks = lob['asks']
-        best_ask_vol = min(level['quantity'] for level in asks)
+        best_ask_price = min([level['price'] for level in asks])
+        best_ask_vol = [ask['quantity'] for ask in asks if ask['price'] == best_ask_price][0]
         return best_ask_vol
     
     def fetch_top_bid_vol(self, lob):
         bids = lob['bids']
-        best_bid_vol = max(level['quantity'] for level in bids)
+        best_bid_price = max([level['price'] for level in bids])
+        best_bid_vol = [bid['quantity'] for bid in bids if bid['price'] == best_bid_price][0]
         return best_bid_vol
+    
+    def fetch_top_ask_price(self):
+        lob = self.summarize_orderbook() 
+        asks = lob['asks']
+        best_ask_price = min([level['price'] for level in asks])
+        return best_ask_price    
+        
+    def fetch_top_bid_price(self):
+        lob = self.summarize_orderbook() 
+        bids = lob['bids']
+        best_bid_price = max([level['price'] for level in bids])
+        return best_bid_price
     
     def fetch_microprice(self):
         lob = self.summarize_orderbook()        
@@ -66,7 +80,7 @@ class PriceData():
         best_bid = max([level['price'] for level in bids])
         best_ask = min([level['price'] for level in asks])
 
-        microprice = (best_ask*best_ask_vol+best_bid*best_bid_vol)/(best_bid_vol+best_ask_vol)
+        microprice = (best_ask*best_bid_vol+best_bid*best_ask_vol)/(best_bid_vol+best_ask_vol)
         return microprice
 
 

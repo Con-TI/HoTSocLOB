@@ -28,6 +28,15 @@ TODO:
         - [] Orderbook imbalances (lots of asks vs few bids, lots of bids vs few asks)
         - [] Big spread in the orderbook
         - [] How to place orders when the market is volatile vs non volatile.
+        - [] Avandella Stoikov (Do this if we have extra time)
+    - Functions:
+        - [] Market conditions fetch
+            - [] Volatility fetch
+        - [] Inventory/Positions fetch
+        - [] Pending orders fetch
+        - [] Bid quote generator (I.e. Poisson parameter generator, (Poisson RV + 1 or 2))
+        - [] Ask quote generator (I.e. Poisson parameter generator, (Poisson RV + 1 or 2))
+        - [] Clear quotes/edits quotes as conditions change
 - Userstats
     - [x] Backend
     - [x] Unrealized PnL display (would require keeping track of orders)
