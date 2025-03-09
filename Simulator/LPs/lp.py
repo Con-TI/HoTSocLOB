@@ -13,7 +13,7 @@ import numpy as np
 import scipy.stats as stats
 
 class LP():
-    def __init__(self, username = 'LP'):
+    def __init__(self, username = 'whaleLP'):
         self.username = username
         self.user = Users.objects.get(name=self.username)
         self.positions = None
@@ -27,10 +27,8 @@ class LP():
         self.order_ratio = None
         
         # Stores the current market spread, midprice, TWAP, VWAP, and volatility (sigma)
-        self.market_conditions = {'spread':None,'midprice':None, 'microprice':None, 'sigma-norm':None, 'best_ask':None, 'best_bid':None}
-        
-        self.initialize()
-    
+        self.market_conditions = {'spread':None,'midprice':None, 'microprice':None, 'sigma_norm':None, 'best_ask':None, 'best_bid':None}
+
     def initialize(self):
         self._update_market_conditions()
         self._fetch_inventory_and_pending_orders()
@@ -45,6 +43,7 @@ class LP():
         self._derive_order_ratio()
         self._poi_param()
         self._create_summary_distributions()
+        self._order_distribution_shift()
         self._update_pending()
     
     def _update_market_conditions(self):
@@ -111,11 +110,10 @@ class LP():
         # Calculates the poisson parameter given orderbook imbalance
         order_ratio = self.order_ratio
         leaky_relu = lambda x : self.m1*(50-x)+1 if x>=50 else self.m2*(10-x)+3
-        self.poi_params = {'bid':leaky_relu(order_ratio['bid']),'ask':leaky_relu(order_ratio['ask'])}
+        self.poi_params = {'bid':leaky_relu(order_ratio['bids']),'ask':leaky_relu(order_ratio['asks'])}
         
     def _order_distribution_shift(self):
         # Calculates the distribution shift we apply (adjusts spread)
-        self._find_rel_volatility()
         rel_vol = self.market_conditions['sigma_norm']
         
         if abs(rel_vol)>0.1:
@@ -127,6 +125,7 @@ class LP():
         order_ratio = self.order_ratio
         steps_from_mid = np.random.poisson(self.poi_params['bid'],order_ratio['bids']) + self._order_distribution_shift()
         bid_array = self.market_conditions['midprice']-steps_from_mid
+        bid_array = bid_array[bid_array>0]
         bid_prices = np.unique(bid_array)
         bid_orders = [{'price':price,'quantity':len(bid_array[bid_array==price])} for price in bid_prices]
         return bid_orders
@@ -137,15 +136,13 @@ class LP():
         steps_from_mid = np.random.poisson(self.poi_params['ask'],order_ratio['asks']) + self._order_distribution_shift()
         ask_array = self.market_conditions['midprice']+steps_from_mid
         ask_prices = np.unique(ask_array)
-        ask_orders = [{'price':price,'quantity':len(ask_array[ask_array==price])} for price in ask_prices]
+        ask_orders = [{'price':price,'quantity':-len(ask_array[ask_array==price])} for price in ask_prices]
         return ask_orders
     
     def _quotes_reset(self):
         # Clear all orders
         self._clear_pending()
         # Bulk fills when we have no orders
-        self._poi_param()
-        self._derive_order_ratio()
         bid_orders = self._bid_generator()
         ask_orders = self._ask_generator()
         bid_objects = [Orders(price=order['price'], quantity=order['quantity'], user=self.user,) for order in bid_orders]
@@ -158,9 +155,8 @@ class LP():
         Orders.objects.filter(user=self.user).delete()
 
     def _update_pending(self):
-        self._fetch_inventory_and_pending_orders()
-        self._create_summary_distributions()
-        pending_bids = self.pending_bids_summary()
+        pending_bids = self.pending_bids_summary
+        pending_bids_total = sum([order['quantity'] for order in pending_bids])
         desired_bids = self._bid_generator()
         desired_bid_prices = [order['price'] for order in desired_bids]
         diff = 0
@@ -172,10 +168,22 @@ class LP():
                 diff += quantity_difference
             else:
                 diff+=order['quantity']
-        if diff >= 20:
+        if diff >= 20 or pending_bids_total<70:
             self._quotes_reset()
         
     
 if __name__ == '__main__':
-    leaky_relu = lambda x : -0.02*(x-50)+1 if x>=50 else 0.05*(10-x)+3
-    print(leaky_relu(30))
+    l = LP()
+    l.update_all()
+    # for u in Users.objects.filter():
+    #     u.delete()
+    
+    # user = Users.objects.get(name='test1')
+    # Orders.objects.create(user=user,price=95,quantity=10)
+    # user = Users.objects.get(name='test2')
+    # Orders.objects.create(user=user,price=105,quantity=-10)
+    
+    # user = Users.objects.get(name='whaleLP')
+    # orders = Orders.objects.filter(user= user)
+    # for order in orders:
+    #     print(order.price, order.quantity)

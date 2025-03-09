@@ -45,8 +45,8 @@ class PriceData():
         best_bid = max([level['price'] for level in bids])
         asks = lob['asks']
         best_ask = min([level['price'] for level in asks])
-        abs_spread = best_bid - best_ask
-        return (abs_spread, (abs_spread/best_ask)*100)
+        abs_spread = best_ask - best_bid
+        return abs_spread
     
     def fetch_top_ask_vol(self, lob):
         asks = lob['asks']
@@ -94,7 +94,6 @@ class PriceData():
             oldest_entry.delete()
 
     def prices_for_plot(self):
-        self.update_price_history()
         prices = PriceHistory.objects.filter().order_by('created_time')
         prices = [p.price for p in prices]
         return prices

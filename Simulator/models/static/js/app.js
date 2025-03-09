@@ -17,9 +17,9 @@ function startAutoRefresh() {
     refreshInterval = setInterval(() => {
         updateUserStats();
         get_current_orderbook();
-    }, 5000); // 5000 milliseconds = 5 seconds
+    }, 2500); // 5000 milliseconds = 5 seconds
     
-    console.log('Auto-refresh started: updating orders every 5 seconds');
+    console.log('Auto-refresh started: updating orders every 2.5 seconds');
 }
 
 function stopAutoRefresh() {
@@ -38,8 +38,6 @@ async function get_current_orderbook(){
         console.error('Error fetching data from Django:', error);
         throw error;
     });
-
-    console.log(data);
 
     // Get the table bodies
     const buyTableBody = document.querySelector("#buy-orders table tbody");
@@ -78,7 +76,9 @@ async function get_current_orderbook(){
         } else {
             // Add each order to the table - make sure to match the HTML order
             // Your HTML has "Ask" first, then "Ask Quantity"
-            data.asks.forEach(order => {
+            const sortedAsks = [...data.asks].sort((a, b) => a.price - b.price);
+            // Then create rows for each bid
+            sortedAsks.forEach(order => {
                 const row = document.createElement('tr');
                 row.innerHTML = `
                     <td>${order.price || ''}</td>
