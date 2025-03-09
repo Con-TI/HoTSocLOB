@@ -101,7 +101,7 @@ class PriceData():
     
     def price_vol(self):
         price_list = self.prices_for_plot()
-        return price_list.std()
+        return std(price_list)
     
     def price_mean(self):
         price_list = self.prices_for_plot()
