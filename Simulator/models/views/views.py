@@ -6,6 +6,8 @@ from django.http import JsonResponse
 from models.models import Users
 from ..users import Add_User, Check_Login
 import pandas as pd
+from datetime import datetime
+import math
 
 # GUI Views.
 # Login will serve as both a login page and a registration page. 
@@ -152,13 +154,49 @@ def chart_py(request):
         return_dict = {"prices":prices,"labels":[i for i in range(100)]}
         return JsonResponse(return_dict)
 
+#time of start of simulation
+init_time = datetime(2025, 3, 9, 1, 23, 0) #datetime(2025, 3, 9, 20, 0, 0)
+#interval in hours (for testing in seconds) between question updates
+interval = 4
+
 qanda = pd.read_csv('models/views/QandA.csv')
 
 def questions_py(request):
+    now = datetime.now()
+    elapsed_time = now - init_time
+    elapsed_time = elapsed_time.total_seconds()
+    #converting to hours when proper
+    #elapsed_time = elapsed_time/3600
+
+    index = math.floor(elapsed_time/interval)
     if request.method == 'GET':
         qs = qanda['Question'].to_list()
-        qs_dict = {'question':qs}
-        return JsonResponse(qs_dict)
+        ques = qs[index%len(qs)]
+        q_dict = {'question':ques}
+        return JsonResponse(q_dict)
+    
+def answers_py(request):
+    now = datetime.now()
+    elapsed_time = now - init_time
+    elapsed_time = elapsed_time.total_seconds()
+    #converting to hours when proper
+    #elapsed_time = elapsed_time/3600
+    index = math.floor(elapsed_time/interval)
+    if request.method == 'GET':
+        try:
+            if (elapsed_time%interval)>=(interval/2):
+                ans = qanda['Answer'].to_list()
+                ans = ans[index%len(ans)]
+                ans_dict = {'answer':ans}
+                return JsonResponse(ans_dict)
+            return JsonResponse(
+                {'answer':'Answer not yet released - gain your edge'}
+                )
+        except:
+            return JsonResponse(
+                {'message':'error'}
+            )
+        
     
 def clear_pending_orders(request):
     if request.method == "GET":
@@ -170,13 +208,3 @@ def clear_pending_orders(request):
         except:
             return JsonResponse({'message':'error'})
         
-def answers_py(request):
-    if request.method == 'GET':
-        try:
-            ans = qanda['Answer'].to_list()
-            ans_dict = {'answer':ans}
-            return JsonResponse(ans_dict)
-        except:
-            return JsonResponse(
-                {'message':'error'}
-            )
