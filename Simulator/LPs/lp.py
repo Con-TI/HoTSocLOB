@@ -14,7 +14,7 @@ class LP():
         self.memory = None
         
         # Stores the current market spread, midprice, TWAP, VWAP, and volatility (sigma)
-        self.market_conditions = {'spread':None,'midprice':None, 'microprice':None, 'sigma':None, 'best_ask':None, 'best_bid':None}
+        self.market_conditions = {'spread':None,'midprice':None, 'microprice':None, 'sigma-norm':None, 'best_ask':None, 'best_bid':None}
         
         self.update_market_conditions()
         
@@ -58,3 +58,12 @@ class LP():
             ask_vol = sum([order['quantity'] for order in pending_asks if order['price']==price])
             pending_bid_summary.append({'price':price, 'quantity':ask_vol})
         self.pending_asks_summary = pending_ask_summary
+
+    def _find_rel_volatility(self):
+        u = PriceData()
+        vol = u.price_vol()
+        mu = u.price_mean()
+        try:
+            self.market_conditions['sigma_norm'] = vol/mu
+        except:
+            self.market_conditions['sigma_norm'] = 0
