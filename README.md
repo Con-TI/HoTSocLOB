@@ -16,7 +16,7 @@ TODO:
         - [x] Backend functions
         - [x] GUI
     - [x] Adding Orders GUI (requires interface)
-    - [] Clear pending orders button
+    - [x] Clear pending orders button
 - Username/Account implementation
     - [x] Backend functions
     - [x] Initial page GUI
