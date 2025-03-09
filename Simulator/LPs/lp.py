@@ -29,16 +29,25 @@ class LP():
         # Stores the current market spread, midprice, TWAP, VWAP, and volatility (sigma)
         self.market_conditions = {'spread':None,'midprice':None, 'microprice':None, 'sigma-norm':None, 'best_ask':None, 'best_bid':None}
         
-        self.update_market_conditions()
+        self.initialize()
     
-    def update_all(self):
-        self.update_market_conditions()
+    def initialize(self):
+        self._update_market_conditions()
         self._fetch_inventory_and_pending_orders()
         self._derive_order_ratio()
         self._poi_param()
         self._create_summary_distributions()
+        self._quotes_reset()        
     
-    def update_market_conditions(self):
+    def update_all(self):
+        self._update_market_conditions()
+        self._fetch_inventory_and_pending_orders()
+        self._derive_order_ratio()
+        self._poi_param()
+        self._create_summary_distributions()
+        self._update_pending()
+    
+    def _update_market_conditions(self):
         # Fetches current market conditions
         self.memory = self.market_conditions
         
