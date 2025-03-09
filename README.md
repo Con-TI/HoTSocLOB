@@ -23,6 +23,11 @@ TODO:
 - Liquidity Provider Implementation
     - [] Maths functions
     - [] Make LP run in background with every other user
+    - [] Make LP place limit orders based on distribution (poisson(discrete))
+    - Conditions to consider:
+        - [] Orderbook imbalances (lots of asks vs few bids, lots of bids vs few asks)
+        - [] Big spread in the orderbook
+        - [] How to place orders when the market is volatile vs non volatile.
 - Userstats
     - [x] Backend
     - [x] Unrealized PnL display (would require keeping track of orders)

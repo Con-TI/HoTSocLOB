@@ -38,6 +38,15 @@ class PriceData():
         best_ask = min([level['price'] for level in asks])
         return (best_bid+best_ask)/2
 
+    def fetch_spread(self):
+        lob = self.summarize_orderbook()
+        bids = lob['bids']
+        best_bid = max([level['price'] for level in bids])
+        asks = lob['asks']
+        best_ask = min([level['price'] for level in asks])
+        abs_spread = best_bid - best_ask
+        return (abs_spread, (abs_spread/best_ask)*100)
+
     def update_price_history(self):
         current_midprice = self.fetch_midprice()
         PriceHistory.objects.create(
