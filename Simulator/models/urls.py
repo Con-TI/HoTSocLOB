@@ -24,8 +24,8 @@ from .views.views import index, login, buy_order, sell_order, get_user_stats, ch
 
 urlpatterns = [
     path('admin/', admin.site.urls), 
-    path("",index, name="index"),
-    path("login/", login, name="login"), 
+    path("", login, name="login"),
+    path("game/", index, name="game"), 
     path("signup/", signup, name="signup"), 
     path("api/buy_order/", buy_order, name="buy_order"),
     path("api/sell_order/", sell_order, name="sell_order"),
@@ -33,9 +33,9 @@ urlpatterns = [
     path("api/login_py", login_py, name='login_py'),
     path("api/signup_py", signup_py, name='signup_py'),
     path("api/fetch_orderbook", fetch_orderbook, name = "fetch_orderbook"),
-    path("api/chart_py", chart_py, name='chart_py'),
-    path("api/questions_py", questions_py, name='questions_py'),
-    path("api/answers_py", answers_py, name='answers_py'),
+    path("game/api/chart_py", chart_py, name='chart_py'),
+    path("game/api/questions_py", questions_py, name='questions_py'),
+    path("game/api/answers_py", answers_py, name='answers_py'),
     path("api/clear_pending_orders", clear_pending_orders, name = 'clear_pending_orders'),
     path('update-database/', my_view, name='update_database'),
     # These two haven't been implemented into the app.js yet
