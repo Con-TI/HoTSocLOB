@@ -169,3 +169,14 @@ def clear_pending_orders(request):
             return JsonResponse({'message':'success'})
         except:
             return JsonResponse({'message':'error'})
+        
+def answers_py(request):
+    if request.method == 'GET':
+        try:
+            ans = qanda['Answer'].to_list()
+            ans_dict = {'answer':ans}
+            return JsonResponse(ans_dict)
+        except:
+            return JsonResponse(
+                {'message':'error'}
+            )
