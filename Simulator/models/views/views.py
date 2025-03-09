@@ -8,6 +8,7 @@ from ..users import Add_User, Check_Login
 import pandas as pd
 from datetime import datetime
 import math
+from LPs.lp import LP
 
 # GUI Views.
 # Login will serve as both a login page and a registration page. 
@@ -151,6 +152,9 @@ def fetch_orderbook(request):
         return JsonResponse(orderbook)
     
 def chart_py(request):
+    now = datetime.now()
+    elapsed_time = now - init_time
+    elapsed_time = elapsed_time.total_seconds()
     if request.method == 'GET':
         u = PriceData()
         prices = u.prices_for_plot()
@@ -201,7 +205,6 @@ def answers_py(request):
             return JsonResponse(
                 {'message':'error'}
             )
-        
     
 def clear_pending_orders(request):
     if request.method == "GET":

@@ -38,7 +38,7 @@ def Add_User(name, password):
         Users.objects.create(
             name = name,
             password = password,
-            equity = 1000 
+            equity = 10000 
         )
         return True
 

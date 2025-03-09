@@ -28,6 +28,7 @@ function fetchDataFromDjango(endpoint, params = {}) {
 
 async function update_price_chart(){
     const data = await fetchDataFromDjango('api/chart_py',{});
+    
     priceChart.data.labels = data.labels;
     priceChart.data.datasets[0].data = data.prices;
     priceChart.update();
@@ -83,9 +84,9 @@ function startAutoRefresh2() {
     // Then set up the interval
     refreshIntervalchart = setInterval(() => {
         update_price_chart();
-    }, 5000); // 5000 milliseconds = 5 seconds
+    }, 2500); // 5000 milliseconds = 5 seconds
     
-    console.log('Auto-refresh started: updating chart every 5 seconds');
+    console.log('Auto-refresh started: updating chart every 2.5 seconds');
 }
 
 function stopAutoRefresh2() {

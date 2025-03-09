@@ -9,18 +9,22 @@ from models.models import Users, Orders, PriceHistory
 from models.pricedata import PriceData
 if __name__ == '__main__':
     # Create a new user
-    try: 
-        user1 = Users.objects.get(name='test1')
-    except:
-        user1 = Users.objects.create(name='test1', password='a', equity=1000)
-    try:    
-        user2 = Users.objects.get(name='test2')
-    except:
-        user2 = Users.objects.create(name='test2', password='a', equity=1000)
+    # try: 
+    #     user1 = Users.objects.get(name='test1')
+    # except:
+    #     user1 = Users.objects.create(name='test1', password='hbgiewjewbrijoekwfbiofewgkigrnik', equity=1000)
+    # try:    
+    #     user2 = Users.objects.get(name='test2')
+    # except:
+    #     user2 = Users.objects.create(name='test2', password='jfkjoejwkbejwkbhrjbefkrgfjebwhrbweh', equity=1000)
+    # try:    
+    #     LP = Users.objects.get(name='whaleLP')
+    # except:
+    #     LP = Users.objects.create(name='whaleLP', password='erwgjneroiogreignerkwiregkeirberkij', equity=1000000)
     
     # Clear DB
-    # for p in PriceHistory.objects.filter():
-    #     p.delete()
+    for p in PriceHistory.objects.filter():
+        p.delete()
     # for u in Users.objects.filter():
     #     u.delete()
     
