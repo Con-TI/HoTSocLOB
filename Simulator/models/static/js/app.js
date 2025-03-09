@@ -54,9 +54,9 @@ async function get_current_orderbook(){
             noDataRow.innerHTML = '<td colspan="2" class="text-center">No orders</td>';
             buyTableBody.appendChild(noDataRow);
         } else {
-            // Add each order to the table - make sure to match the HTML order
-            // Your HTML has "Bid Quantity" first, then "Bid"
-            data.bids.forEach(order => {
+            const sortedBids = [...data.bids].sort((a, b) => b.price - a.price);
+            // Then create rows for each bid
+            sortedBids.forEach(order => {
                 const row = document.createElement('tr');
                 row.innerHTML = `
                     <td>${order.quantity || ''}</td>
