@@ -22,7 +22,7 @@ class LP():
         self.pending_asks_summary = None
         self.memory = None
         self.poi_params = None
-        self.m1 = 0.02
+        self.m1 = 0.01
         self.m2 = 0.05
         self.order_ratio = None
         
@@ -65,7 +65,7 @@ class LP():
         # Calculates order ratio based off of microprice and spread
         micro_minus_bid = self.market_conditions['microprice']-self.market_conditions['best_bid']
         numeric_spread = self.market_conditions['spread']
-        bid_order_num = min(max(int(micro_minus_bid/numeric_spread*100),10),90)
+        bid_order_num = min(max(int(micro_minus_bid/numeric_spread*100),30),90)
         ask_order_num = 100 - bid_order_num
         self.order_ratio = {"bids": bid_order_num, "asks": ask_order_num}
     
