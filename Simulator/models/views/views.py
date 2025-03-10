@@ -162,7 +162,7 @@ def chart_py(request):
         return JsonResponse(return_dict)
 
 #time of start of simulation
-init_time = datetime(2025, 3, 9, 1, 23, 0) #datetime(2025, 3, 9, 20, 0, 0)
+init_time = datetime(2025, 3, 10, 14, 00, 0) #datetime(2025, 3, 9, 20, 0, 0)
 #interval in hours (for testing in seconds) between question updates
 interval = 4
 
@@ -173,8 +173,7 @@ def questions_py(request):
     elapsed_time = now - init_time
     elapsed_time = elapsed_time.total_seconds()
     #converting to hours when proper
-    #elapsed_time = elapsed_time/3600
-
+    elapsed_time = elapsed_time/3600
     index = math.floor(elapsed_time/interval)
     if request.method == 'GET':
         qs = qanda['Question'].to_list()
@@ -186,10 +185,10 @@ def answers_py(request):
     now = datetime.now()
     elapsed_time = now - init_time
     elapsed_time = elapsed_time.total_seconds()
+    elapsed_time = elapsed_time/3600
     time_to_ans = interval/2 - (elapsed_time%interval)
     time_to_ans_str = str(round(time_to_ans, 2)) + ' hours to next answer release'
-    #converting to hours when proper
-    #elapsed_time = elapsed_time/3600
+    
     index = math.floor(elapsed_time/interval)
     if request.method == 'GET':
         try:
