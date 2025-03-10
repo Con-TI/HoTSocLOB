@@ -14,6 +14,11 @@ RUN pip install --no-cache-dir -r requirements.txt
 RUN python manage.py collectstatic --noinput
 # Expose the static directory
 EXPOSE 8080
+EXPOSE 8000
 
 # Run the application using Gunicorn
-CMD ["gunicorn", "--bind", "0.0.0.0:8080", "myproject.wsgi"]
+CMD ["gunicorn", "--bind", "0.0.0.0:8080", "core.wsgi"]
+
+COPY docker-entrypoint.sh /docker-entrypoint.sh
+RUN chmod +x /docker-entrypoint.sh
+ENTRYPOINT ["/docker-entrypoint.sh"]

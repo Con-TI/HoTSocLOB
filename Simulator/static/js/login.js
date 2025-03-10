@@ -44,12 +44,12 @@ async function login_py() {
         // Store the username in sessionStorage so it's available on the next page
         sessionStorage.setItem('username', name);
         
-        // Get current URL and remove "/login/" from the end
+        // Get current URL and add "/game/" to the end
         const currentUrl = window.location.href;
-        const baseUrl = currentUrl.replace('/login/', '/');
+        //const baseUrl = currentUrl.replace('/','/game/');
         
         // Redirect to the base URL
-        window.location.href = baseUrl;
+        window.location.href = currentUrl + '/game/';
     } else {
         alert("Invalid username or password")
     }

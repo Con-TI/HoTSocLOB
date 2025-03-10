@@ -33,7 +33,7 @@ SECRET_KEY = 'django-insecure-18nv%-9xwh01horrkanb@mh41n#mighz6i3nb&@mkt2rvbnp2^
 DEBUG = True
 
 # TODO: To add later once we host
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -86,7 +86,8 @@ WSGI_APPLICATION = 'core.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'HOST': '34.70.182.178',
+        'HOST': '/cloudsql/even-arc-453016-s3:us-central1:data',
+        # 'HOST': '34.70.182.178',
         'PORT':5432,
         'NAME':'postgres',
         'USER':'postgres',
@@ -141,7 +142,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Celery settings
 # settings.py
 # Celery settings
-CELERY_BROKER_URL = 'amqp://guest:guest@localhost:5672//'
+CELERY_BROKER_URL = 'amqp://oles:Wilderness777@34.116.158.245:5672/olesvhost'
 CELERY_RESULT_BACKEND = 'rpc://'
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_ACCEPT_CONTENT = ['application/json', 'json']

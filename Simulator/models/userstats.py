@@ -9,7 +9,7 @@ from models.models import Users, Orders, Positions
 
 class UserStats():
     def calc_pnl(self, equity):
-        return equity-1000
+        return equity-10000
     
     def fetch_pending_orders(self, user):
         orders = Orders.objects.filter(user=user).order_by('created_time')

@@ -51,7 +51,7 @@ async function signup_py() {
             const baseUrl = currentUrl.replace('/signup/', '/');
             
             // Redirect to the base URL
-            window.location.href = baseUrl;
+            window.location.href = baseUrl + '/game/';
         } else {
             alert("Username already in use.")
         }

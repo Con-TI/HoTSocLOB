@@ -49,7 +49,7 @@ async function login_py() {
         //const baseUrl = currentUrl.replace('/','/game/');
         
         // Redirect to the base URL
-        window.location.href = currentUrl + 'game/';
+        window.location.href = currentUrl + '/game/';
     } else {
         alert("Invalid username or password")
     }
