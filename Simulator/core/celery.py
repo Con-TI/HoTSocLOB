@@ -9,6 +9,11 @@ app = Celery('core')
 app.config_from_object('django.conf:settings', namespace='CELERY')
 app.autodiscover_tasks()
 
+app.conf.update(
+    broker_url='amqp://oles:Wilderness777@34.116.158.245:5672//',
+    result_backend='rpc://',  # You can use another backend (e.g., Redis, database) if needed
+)
+
 # Simplify the configuration
 app.conf.task_serializer = 'json'
 app.conf.accept_content = ['json']
