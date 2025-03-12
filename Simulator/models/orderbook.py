@@ -6,6 +6,7 @@ if __name__=='__main__':
     django.setup()
         
 from models.models import Orders, Users, Positions
+from models.pricedata import PriceData
 from django.db.models import Q
 
 
@@ -86,20 +87,56 @@ class OrderBook():
 
     @classmethod
     def add_buy_order(self, user, price : int, quantity : int):
-        Orders.objects.create(
-            user = user,
-            price = price,
-            quantity = quantity,
-        )
+        p = PriceData()
+        best_ask = p.fetch_top_ask_price()
+        if price > best_ask:
+            user.equity -= price * quantity
+            user.save(update_fields=['equity'])
+            try:
+                pos = Positions.objects.get(user=user, price=p)
+                pos.quantity += quantity
+                pos.save(update_fields=['quantity'])
+                if pos.quantity == 0:
+                    pos.delete()
+            except:
+                pos = Positions.objects.create(
+                    user = user,
+                    price = p,
+                    quantity =  quantity
+                )
+        else:        
+            Orders.objects.create(
+                user = user,
+                price = price,
+                quantity = quantity,
+            )
         
     @classmethod
     def add_sell_order(self, user, price : int, quantity : int):
-        Orders.objects.create(
-            user = user,
-            price = price,
-            quantity = -quantity,
-        )
-    
+        p = PriceData()
+        best_bid = p.fetch_top_bid_price()
+        if price < best_bid:
+            user.equity += price * quantity
+            user.save(update_fields=['equity'])
+            try:
+                pos = Positions.objects.get(user=user, price=p)
+                pos.quantity -= quantity
+                pos.save(update_fields=['quantity'])
+                if pos.quantity == 0:
+                    pos.delete()
+            except:
+                pos = Positions.objects.create(
+                    user = user,
+                    price = p,
+                    quantity = -quantity
+                )
+        else:        
+            Orders.objects.create(
+                user = user,
+                price = price,
+                quantity = -quantity,
+            )
+                
     @classmethod
     def clear_pending_orders(self, user):
         Orders.objects.filter(user=user).delete()
