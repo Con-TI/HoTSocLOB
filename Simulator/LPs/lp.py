@@ -178,6 +178,9 @@ class LP():
 
     
 if __name__ == '__main__':
+    l = BlockLP()
+    # reverting
+    l._clear_pending()
     pass
     # for u in Users.objects.filter():
     #     u.delete()
