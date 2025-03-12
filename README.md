@@ -1,7 +1,7 @@
 # HoTSocLOB
 Commands to run (on separate terminals):
-celery -A core beat -l info
-celery -A core worker -l info -P eventlet 
+python -m celery -A core beat -l info
+python -m celery -A core worker -l info -P eventlet 
 python manage.py runserver
 
 TODO:

@@ -1,6 +1,6 @@
 from celery import shared_task
 from models.pricedata import PriceData
-from LPs.lp import LP
+from LPs.lp import LP, BlockLP
 
 @shared_task
 def update_database_task():
@@ -9,4 +9,6 @@ def update_database_task():
     u.update_price_history()
     l = LP()
     l.update_all()
+    # l = BlockLP()
+    # l.update_all()
     return "Database updated successfully"

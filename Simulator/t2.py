@@ -21,10 +21,19 @@ if __name__ == '__main__':
     #     LP = Users.objects.get(name='whaleLP')
     # except:
     #     LP = Users.objects.create(name='whaleLP', password='erwgjneroiogreignerkwiregkeirberkij', equity=1000000)
+    # try:    
+    #     LP = Users.objects.get(name='whaleLP2')
+    # except:
+    #     LP = Users.objects.create(name='whaleLP2', password='erwgjneroiogreignerkwiregkeirberkij', equity=1000000)
     
+
+
     # Clear DB
-    for p in PriceHistory.objects.filter():
-        p.delete()
+    PriceHistory.objects.filter().delete()
+    for i in range(5):
+        p = PriceData()
+        PriceHistory.objects.create(price=p.fetch_midprice())
+
     # for u in Users.objects.filter():
     #     u.delete()
     
