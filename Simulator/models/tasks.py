@@ -1,6 +1,6 @@
 from celery import shared_task
 from models.pricedata import PriceData
-from LPs.lp import LP, BlockLP
+from LPs.lp import LP
 
 @shared_task
 def update_database_task():

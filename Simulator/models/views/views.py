@@ -58,8 +58,9 @@ def sell_order(request):
             return JsonResponse({
                 'message': 'error'
             })
-        OrderBook.add_sell_order(user=u,price=price,quantity=quantity)
-        OrderBook.match_orders()
+        o = OrderBook()
+        o.add_sell_order(user=u,price=price,quantity=quantity)
+        o.match_orders()
         return  JsonResponse({
             'message': 'success'
         })
