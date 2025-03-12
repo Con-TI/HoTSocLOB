@@ -90,8 +90,10 @@ class PriceData():
             price = current_midprice
         )
         if PriceHistory.objects.count() > 100:
-            oldest_entry = PriceHistory.objects.earliest('created_time')
-            oldest_entry.delete()
+            n_to_delete = PriceHistory.objects.count()-100
+            for o in list(PriceHistory.objects.order_by('created_time').all()[:n_to_delete]):
+                o.delete()
+                        
 
     def prices_for_plot(self):
         prices = PriceHistory.objects.filter().order_by('created_time')

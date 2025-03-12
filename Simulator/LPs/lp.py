@@ -176,11 +176,65 @@ class LP():
         if diff >= 20 or pending_bids_total<70:
             self._quotes_reset()
 
+from datetime import datetime
+import pandas as pd
+import math
+
+class trend_setter(LP):
+    def __init__(self):
+        super().__init__(username="whaleLP2")
+
+    def _update_market_conditions(self):
+        # Fetches current market conditions
+        self.memory.append(self.market_conditions)
+        if len(self.memory)>10:
+            self.memory.pop(0)
+        
+        
+        # Interacting with DB
+        u = PriceData()
+        self.market_conditions['midprice'] =  self.trend_midprice()
+        self.market_conditions['microprice'] = self.market_conditions['midprice']
+        self.market_conditions['spread'] = u.fetch_spread()
+        self.market_conditions['best_ask'] = u.fetch_top_ask_price()
+        self.market_conditions['best_bid'] =  u.fetch_top_bid_price()
+        
+        # Updating rel_vol
+        self._find_rel_volatility()
+
+    def trend_midprice(self):
+        qanda = pd.read_csv('models/views/QandA.csv')
+        p = PriceData()
+        true_mid = p.fetch_midprice() 
+
+        time_now = datetime.now()
+        init_time = datetime(2025, 3, 10, 14, 00, 0)
+        elapsed_time = time_now - init_time
+        elapsed_time = elapsed_time.total_seconds()
+        elapsed_time = elapsed_time/3600
+        interval = 4
+        index = math.floor(elapsed_time/interval)
+
+        if (elapsed_time%interval)>=(interval/2):
+            ans = qanda['Answer'].to_list()
+            ans = ans[index%len(ans)]
+            return ans
+        elif (elapsed_time%interval)>=(interval/4):
+            ans = qanda['Answer'].to_list()
+            ans_old = ans[index%len(ans)-1]
+            ans_new = ans[index%len(ans)]
+            ans_dif = ans_new-ans_old
+
+            price = lambda x: ans_dif*x + ans_old
+
+            return price(elapsed_time%interval-interval/4) + np.random.randint(int(-(true_mid*0.05)), int(true_mid*0.05)+1)
+        
+        return true_mid + np.random.randint(int(-true_mid*0.05), int(true_mid*0.05)+1)
     
 if __name__ == '__main__':
-    l = BlockLP()
+    #l = BlockLP()
     # reverting
-    l._clear_pending()
+    #l._clear_pending()
     pass
     # for u in Users.objects.filter():
     #     u.delete()

@@ -93,7 +93,7 @@ class OrderBook():
             user.equity -= price * quantity
             user.save(update_fields=['equity'])
             try:
-                pos = Positions.objects.get(user=user, price=p)
+                pos = Positions.objects.get(user=user, price=price)
                 pos.quantity += quantity
                 pos.save(update_fields=['quantity'])
                 if pos.quantity == 0:
@@ -101,7 +101,7 @@ class OrderBook():
             except:
                 pos = Positions.objects.create(
                     user = user,
-                    price = p,
+                    price = price,
                     quantity =  quantity
                 )
         else:        
@@ -119,7 +119,7 @@ class OrderBook():
             user.equity += price * quantity
             user.save(update_fields=['equity'])
             try:
-                pos = Positions.objects.get(user=user, price=p)
+                pos = Positions.objects.get(user=user, price=price)
                 pos.quantity -= quantity
                 pos.save(update_fields=['quantity'])
                 if pos.quantity == 0:
@@ -127,7 +127,7 @@ class OrderBook():
             except:
                 pos = Positions.objects.create(
                     user = user,
-                    price = p,
+                    price = price,
                     quantity = -quantity
                 )
         else:        
