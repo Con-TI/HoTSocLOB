@@ -68,6 +68,8 @@ class LP():
         # Calculates order ratio based off of microprice and spread
         micro_minus_bid = self.market_conditions['microprice']-self.market_conditions['best_bid']
         numeric_spread = self.market_conditions['spread']
+        if numeric_spread == 0:
+            numeric_spread = 1
         bid_order_num = min(max(int(micro_minus_bid/numeric_spread*100),30),70)
         ask_order_num = 100 - bid_order_num
         self.order_ratio = {"bids": bid_order_num, "asks": ask_order_num}
@@ -153,7 +155,10 @@ class LP():
         order_objects = bid_objects + ask_objects
         Orders.objects.bulk_create(order_objects)
         book = OrderBook()
-        book.match_orders()
+        try:
+            book.match_orders()
+        except:
+            pass
     
     def _clear_pending(self):
         # Clear all pending orders
@@ -172,8 +177,21 @@ class LP():
                 quantity_difference = abs(desired_order['quantity']-order['quantity'])
                 diff += quantity_difference
             else:
-                diff+=order['quantity']
-        if diff >= 20 or pending_bids_total<70:
+                diff += order['quantity']
+                
+        pending_asks = self.pending_asks_summary
+        pending_ask_total = sum([order['quantity'] for order in pending_asks])
+        desired_asks = self._bid_generator()
+        desired_ask_prices = [order['price'] for order in desired_asks]
+        for order in pending_asks:
+            p = order['price']
+            if p in desired_ask_prices:
+                desired_order = [order for order in desired_asks if order['price'] == p][0]
+                quantity_difference = abs(desired_order['quantity']-order['quantity'])
+                diff += quantity_difference
+            else:
+                diff += order['quantity']
+        if diff >= 20 or (pending_ask_total+pending_bids_total)<70:
             self._quotes_reset()
 
 from datetime import datetime
