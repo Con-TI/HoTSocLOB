@@ -187,7 +187,9 @@ def answers_py(request):
     elapsed_time = elapsed_time.total_seconds()
     elapsed_time = elapsed_time/3600
     time_to_ans = interval/2 - (elapsed_time%interval)
+    #time_to_q = interval/2 - ((elapsed_time%interval)-2)
     time_to_ans_str = str(round(time_to_ans, 2)) + ' hours to next answer release'
+    #time_to_q_str = ' '+ str(round(time_to_q, 2)) + ' hours to next question release'
     
     index = math.floor(elapsed_time/interval)
     if request.method == 'GET':
@@ -195,6 +197,7 @@ def answers_py(request):
             if (elapsed_time%interval)>=(interval/2):
                 ans = qanda['Answer'].to_list()
                 ans = ans[index%len(ans)]
+                #ans_string = ans + time_to_q_str #this is what we need to change
                 ans_dict = {'answer':ans}
                 return JsonResponse(ans_dict)
             return JsonResponse(

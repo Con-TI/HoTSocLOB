@@ -86,8 +86,8 @@ WSGI_APPLICATION = 'core.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'HOST': '/cloudsql/even-arc-453016-s3:us-central1:data',
-        # 'HOST': '34.70.182.178',
+        #'HOST': '/cloudsql/even-arc-453016-s3:us-central1:data',
+        'HOST': '34.70.182.178',
         'PORT':5432,
         'NAME':'postgres',
         'USER':'postgres',
