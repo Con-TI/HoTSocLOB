@@ -93,10 +93,11 @@ class PriceData():
             n_to_delete = PriceHistory.objects.count() - 100
             for o in list(PriceHistory.objects.order_by('created_time').all()[:n_to_delete]):
                 o.delete()
-                def prices_for_plot(self):
-                    prices = PriceHistory.objects.filter().order_by('created_time')
-                    prices = [p.price for p in prices]
-                    return prices
+
+    def prices_for_plot(self):
+        prices = PriceHistory.objects.filter().order_by('created_time')
+        prices = [p.price for p in prices]
+        return prices
     
     def price_vol(self):
         price_list = self.prices_for_plot()
