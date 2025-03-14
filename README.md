@@ -25,9 +25,9 @@ TODO:
     - [x] Backend functions
     - [x] Initial page GUI
 - Liquidity Provider Implementation
-    - [] Maths functions
-    - [] Make LP run in background with every other user
-    - [] Make LP place limit orders based on distribution (poisson(discrete))
+    - [x] Maths functions
+    - [x] Make LP run in background with every other user
+    - [x] Make LP place limit orders based on distribution (poisson(discrete))
     - Conditions to consider:
         - [x] Orderbook imbalances (lots of asks vs few bids, lots of bids vs few asks)
         - [x] Big spread in the orderbook
@@ -43,8 +43,8 @@ TODO:
         - [x] Unique poisson parameter for both the bids and asks generated
         - [x] Based on volatility, we adjust the constant we add to the poisson RV (to increase/decrease spread) (Keep it the same for both the bid and ask generator)
         - [x] We adjust the poisson parameter based off of orderbook imbalance. E.g. increase the parameter for the bids if there is a likely short
-        - [] Clear quotes
-        - [] Edit quotes as conditions change
+        - [x] Clear quotes
+        - [x] Edit quotes as conditions change
 - Userstats
     - [x] Backend
     - [x] Unrealized PnL display (would require keeping track of orders)
