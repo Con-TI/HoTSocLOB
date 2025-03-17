@@ -4,7 +4,7 @@ Description of Project:
 - The technologies used to develop this app include: Python, Django, HTML, CSS, JavaScript, Google cloud, celery, RabbitMQ.
 - Features of the interface (displayed below) include: a dashboard to display account information, a buy and sell interface, tables displaying pending orders and current positions, a live chart of the prevailing mid-price, and the live orderbook.
 
-![Screenshot](images/Screenshot 2025-03-10 151008.png)
+![Screenshot](images/screenshot.png)
 
 - Other features (backend):
     - Liquidity providing and the updating of the live price chart runs parallel to the website's processes using celery and RabbitMQ to prevent errors when multiple instances of the website are being run.
