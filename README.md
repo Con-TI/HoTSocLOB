@@ -15,9 +15,11 @@ Description of Project:
 
 Notes:
 Commands to run (on separate terminals):
+'''console
 python -m celery -A core beat -l info
 python -m celery -A core worker -l info -P eventlet 
 python manage.py runserver
+'''
 
 TODO:
 - [x] DB Contains 2 tables --> Users, Orders, PriceHistory
