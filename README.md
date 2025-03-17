@@ -1,6 +1,6 @@
 # HoTSocLOB
 Description of Project:
-- As part of running for co-heads of trading for our university's Algorithmic trading society, we developed a online trading competition over the course of 2 days.
+- As part of running for co-heads of trading for our university's Algorithmic trading society, we developed a online trading competition over the course of 2 days. (Sidenote: We were successful :D )
 - This is a trading simulation/game where the fair value of the 'stock' being traded is derived from the answer to a probability question that gets updated every 4 hours.
 - The technologies used to develop this app include: Python, Django, HTML, CSS, JavaScript, Google cloud, celery, RabbitMQ.
 - Features of the interface (displayed below) include: a dashboard to display account information, a buy and sell interface, tables displaying pending orders and current positions, a live chart of the prevailing mid-price, and the live orderbook.
