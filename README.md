@@ -14,7 +14,7 @@ Description of Project:
     - Trend setting bot: To prevent the market from shifting completely contrary to the fair value by bad actors, the trend setting bot (within 1 hour of the answer being revealed) provides quotes to shift the market upwards/downwards towards the current fair value (current question's answer).
 
 Notes:
-Commands to run (on separate terminals):
+Commands to run locally (on separate terminals from the "/Simulator" directory):
 ```console
 python -m celery -A core beat -l info
 python -m celery -A core worker -l info -P eventlet 
